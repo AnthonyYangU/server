@@ -56,6 +56,19 @@ async function saveArray(array){
     })
 }
 
+function createTest(){
+    for(let i=0;i<35;i++){
+        createData({
+            deviceId:1000+i,
+            forcex:2*i*i,
+            torque:35+i,
+            buttery:i/12,
+            temperature:10*i
+        }) 
+    }
+}
+
+
 // saveArray(
 //     [
 //         {
@@ -204,5 +217,6 @@ module.exports = {
     search,
     deleteById,
     deleteMany,
-    saveArray
+    saveArray,
+    createTest
 }
