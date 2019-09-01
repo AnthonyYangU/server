@@ -15,8 +15,14 @@ const tcpServer = net.createServer((socket)=>{
     // recieve data
     socket.on("data",data=>{
       let str = addr+" receive: " + data.toString('hex') + '\n';
+      let receivedData = data.toString('hex');
       console.log(str);
-      socket.lastValue = Translate(data.toString('hex'));
+      let headId = receivedData.substring(0,4);
+      if(headId==='5a5a')
+        socket.lastValue = Translate(receivedData);
+      else{
+        console.log("incorrect headId");
+      }
     });
   
     // close
@@ -48,25 +54,25 @@ const tcpServer = net.createServer((socket)=>{
     console.log('tcp server running on', tcpServer.address())
   });
 
-function sentCommand(command){
-    if(tcpClient){
-        if(command === 'open')
-        tcpClient.write('1','ascii');
-        else if(command === 'close')
-        tcpClient.write('0','ascii');
-    }else{
-        console.log("openLed error:no tcpClient.")
-    }
-}
+// function sentCommand(command){
+//     if(tcpClient){
+//         if(command === 'open')
+//         tcpClient.write('1','ascii');
+//         else if(command === 'close')
+//         tcpClient.write('0','ascii');
+//     }else{
+//         console.log("openLed error:no tcpClient.")
+//     }
+// }
 
-function getData(){
-    if(tcpClient){
-        return tcpClient.lastValue;
-    }else{
-        console.log("getData error:no tcpClient.");
-    }
-}
+// function getData(){
+//     if(tcpClient){
+//         return tcpClient.lastValue;
+//     }else{
+//         console.log("getData error:no tcpClient.");
+//     }
+// }
 module.exports = {
-    sentCommand:sentCommand,
-    getData:getData
+    // sentCommand:sentCommand,
+    // getData:getData
 }
