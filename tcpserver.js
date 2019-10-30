@@ -17,6 +17,7 @@ const tcpServer = net.createServer((socket)=>{
       let str = addr+" receive: " + data.toString('hex') + '\n';
       let receivedData = data.toString('hex');
       console.log(str);
+      console.log("Ascii data:",data.toString("Ascii"));
       let headId = receivedData.substring(0,4);
       if(headId==='5a5a')
         socket.lastValue = Translate(receivedData);
