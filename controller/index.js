@@ -1,4 +1,4 @@
-const {createData,findData,myTest,search,deleteById,deleteMany,saveArray} = require('../mongo.js')
+const {createData,findData,myTest,search,deleteById,deleteMany,saveArray} = require('../mongodb.js')
 
 const JSON_MIME = 'application/json'
 module.exports = {
@@ -35,21 +35,6 @@ module.exports = {
             status:0
         }
     },
-    test:async(ctx,next)=>{
-        let test = {selection:'',max:0,min:0};
-        // console.log(ctx.request.body);
-        test.selection = ctx.request.body.selection;
-        test.max = ctx.request.body.max;
-        test.min=ctx.request.body.min;    
-        // test.selection = 'name';
-        // test.max = 3;
-        // test.min= 0;    
-        ctx.type = JSON_MIME;
-        ctx.response.body = {
-            status:0,
-            data:await myTest(test)
-        }
-    },
     search:async(ctx,next)=>{
         let jsonData = ctx.request.body;
         // console.log(jsonData)
@@ -82,5 +67,4 @@ module.exports = {
             status:0
         }
     },
-
 }

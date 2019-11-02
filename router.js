@@ -21,7 +21,6 @@ module.exports = (app)=>{
     router.get('/api',Controller.api);
     // router.post('/api/login',Controller.login);
     router.post('/api/login',Controller.login);
-    router.get('/api/test',Controller.test);
     router.post('/api/search',Controller.search);
     router.post('/api/delete',Controller.delete);
     router.post('/api/dm',Controller.dm);
