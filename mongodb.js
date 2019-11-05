@@ -7,12 +7,29 @@ mongoose.connect('mongodb://localhost/lot',{
         poolSize:10
 })
 
+//typedef struct
+//{
+//		double battery;
+//    double temperature;
+//		double deepth;
+//    double force1[26];
+//	  double force2[26];
+//		double stress1[26];
+//	  double stress2[26];
+//	  double current[26];
+//}testValue_t;
+
 var loTSchema = mongoose.Schema({
-    deviceId:Number,
-    current:Number,
-    buttery:Number,
-    temperature:Number,
-    groupId:Number,
+    battery:String,
+    temperature:String,
+    deepth:String,
+    force1:String,
+    force2:String,
+    stress1:String,
+    stress2:String,
+    current:String,
+    deviceId:String,
+    groupId:String,
     date:String,
     time:String
 })
@@ -24,31 +41,17 @@ var groupSchema = mongoose.Schema({
 })
 var groupModel = mongoose.model('groupId',groupSchema);
 
-createData({
-    deviceId:1001,
-    current:0.5,
-    buttery:0.8,
-    temperature:[1,2,3,4,5,6,7,8,9]
-})
-
-async function createData(json){
+async function createData(jsonArray){
     let flow = calTime();
     groupIncreament().then(groupId=>{
-        let dataArr = [];
-        for(let temperature of json.temperature){
-            dataArr.push({
-                deviceId:json.deviceId,
-                current:json.current,
-                buttery:json.buttery,
-                temperature:temperature,
-                groupId:groupId,
-                date:flow.date,
-                time:flow.time
-            });
+        for(let data of jsonArray){
+            data.groupId = groupId;
+            data.date = flow.date;
+            data.time = flow.time;
         }
-        loTModelTest.create(dataArr,(err)=>{
+        loTModelTest.create(jsonArray,(err)=>{
             if(err){
-                console.log(err)
+                console.log(err);
             }
         });    
     });
@@ -76,7 +79,7 @@ async function search(json){
     let maxId = json.maxId?json.maxId:'999999999999999999999999';
 
     let len = json.type.length;
-    let selection = 'deviceId date time';
+    let selection = 'deviceId groupId date time';
     for(let i=0;i<len;i++){
         selection = selection + ' ' + json.type[i];
     }
@@ -89,6 +92,9 @@ async function search(json){
 
     if (json.deviceId != ''){
         query.deviceId = json.deviceId
+    }
+    if(json.groupId !=''){
+        query.groupId = json.groupId
     }
 
     return await loTModelTest.find(query).
@@ -144,7 +150,7 @@ function calTime(){
 
     return {
         date:date,
-        time:time
+        time:time,
     }
 }
 
@@ -173,5 +179,6 @@ module.exports = {
     search,
     deleteById,
     deleteMany,
-    saveArray
+    saveArray,
+    calTime
 }

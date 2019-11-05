@@ -6,7 +6,7 @@ const app = new Koa()
 const tcpserver = require('./tcpserver')
 const bodyParser = require('koa-bodyparser')
 
-console.log(tcpserver.getData);
+//console.log(tcpserver.getData);
 app.use(bodyParser({multipart:true}))
 router(app);
 // console.log(Date.now())

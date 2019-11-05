@@ -1,4 +1,17 @@
 // var string = '3cb968999999999a'
+//从d7a3703d0ac75e40到405EC70A3D70A3D7
+function hexAdjust(string){
+    var splitString = string.split("");
+    var reverseArray = splitString.reverse();
+    for(let i=0;i<8;i++){
+        temp = reverseArray[2*i];
+        reverseArray[2*i] = reverseArray[2*i+1];
+        reverseArray[2*i+1] = temp;
+    }
+    var joinArray = reverseArray.join("");
+    //console.log(joinArray);
+    return joinArray;
+}
 
 function hexTobin(n){
     let num = parseInt(n,16).toString(2);
@@ -42,15 +55,14 @@ function binToDouble(binString){
             decimalNum = decimalNum + decimal[j]*Math.pow(2,-j);
         }             
     }
-    if(binString.substring(0)==='0')
-        return integerNum + decimalNum;
-    else
-        return -(integerNum + decimalNum);
+    // if(binString.substring(0)==='0')
+    //     return integerNum + decimalNum;
+    // else
+        return (integerNum + decimalNum);
 }
 
 function hexToDouble(hexString){
-    return binToDouble(hexTobin(hexString));
+    return binToDouble(hexTobin(hexAdjust(hexString)));
 }
-// console.log(hexToDouble('3cb968999999999a'));
 
 module.exports = hexToDouble;
