@@ -23,7 +23,7 @@ const tcpServer = net.createServer((socket)=>{
       //console.log("Ascii data:",data.toString("Ascii"));
       let headId = rd.substring(0,4);
       if(headId==='5a5b'){
-        if(receivedState<=5){
+        if(receiveState<=5){
           let analyseData = translate(rd);
           receiveState ++;
           receivedData.push(...analyseData);
