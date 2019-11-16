@@ -26,12 +26,16 @@ const tcpServer = net.createServer((socket)=>{
         if(receiveState<5){
           let analyseData = translate(rd);
           receiveState ++;
-          if(receiveState==5){
-            socket.write("FINISH",function(){
-              console.log("Data transmit Finished");
-            })
-          }
           receivedData.push(...analyseData);
+          if(receiveState==5){
+            console.log(socket.id,socket.addr,'data sended');
+            socket.end();    
+            console.log(`Save ${receiveState} receivedData`);
+            createData(receivedData);
+            console.log("Save completely");
+            receiveState = 0;
+            receivedData = [];
+          }
         }
       }
       else{
@@ -42,13 +46,8 @@ const tcpServer = net.createServer((socket)=>{
     // close
     socket.on('close',()=>{
       console.log(addr,"close");
-      if(receiveState==5){
-        console.log(`Save ${receiveState} receivedData`);
-        createData(receivedData);
-        console.log("Save completely");
         receiveState = 0;
         receivedData = [];
-      }
     });
   
     socket.on('error',(err)=>{
@@ -59,12 +58,12 @@ const tcpServer = net.createServer((socket)=>{
   
     socket.setTimeout(TIMEOUT);
       // 超过一定时间 没接收到数据，就主动断开连接。
-      receiveState = 0;
-      receivedData = [];
-      socket.on('timeout', () => {
-          console.log(socket.id,socket.addr,'socket timeout');
-      socket.end();
-      });
+    socket.on('timeout', () => {
+        receiveState = 0;
+        receivedData = [];
+        console.log(socket.id,socket.addr,'socket timeout');
+        socket.end();
+    });
 });
   
 tcpServer.on("error",(err)=>{
