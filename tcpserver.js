@@ -38,7 +38,7 @@ const tcpServer = net.createServer((socket)=>{
           }
         }
         console.log("recieve state is ",receiveState);
-        console.log("receivedData is ",receivedData);
+        // console.log("receivedData is ",receivedData);
       }
       else{
         console.log("incorrect headId");
