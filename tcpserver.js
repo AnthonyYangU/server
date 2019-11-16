@@ -31,9 +31,9 @@ const tcpServer = net.createServer((socket)=>{
             receiveState = 0;
             receivedData = [];
             console.log(socket.addr,'data sended');
-            // socket.end();    
+            createData(receivedData);
+            //socket.end();    
             console.log(`Save ${receiveState} receivedData`);
-            //createData(receivedData);
             console.log("Save completely");
           }
         }
