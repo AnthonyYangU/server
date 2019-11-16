@@ -28,7 +28,7 @@ const tcpServer = net.createServer((socket)=>{
           receiveState ++;
           receivedData.push(...analyseData);
           if(receiveState==5){
-            console.log(socket.id,socket.addr,'data sended');
+            console.log(socket.addr,'data sended');
             socket.end();    
             console.log(`Save ${receiveState} receivedData`);
             createData(receivedData);
@@ -46,6 +46,13 @@ const tcpServer = net.createServer((socket)=>{
     // close
     socket.on('close',()=>{
       console.log(addr,"close");
+      if(receiveState==5){
+        console.log(socket.addr,'data sended');
+        socket.end();    
+        console.log(`Save ${receiveState} receivedData`);
+        createData(receivedData);
+        console.log("Save completely");
+      }
         receiveState = 0;
         receivedData = [];
     });
@@ -61,7 +68,7 @@ const tcpServer = net.createServer((socket)=>{
     socket.on('timeout', () => {
         receiveState = 0;
         receivedData = [];
-        console.log(socket.id,socket.addr,'socket timeout');
+        console.log(socket.addr,'socket timeout');
         socket.end();
     });
 });
