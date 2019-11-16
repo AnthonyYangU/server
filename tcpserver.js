@@ -25,11 +25,11 @@ const tcpServer = net.createServer((socket)=>{
       if(headId==='5a5b'){
         if(receiveState<5){
           let analyseData = translate(rd);
-          receiveState ++;
+          receiveState++;
           receivedData.push(...analyseData);
-          if(receiveState==5){
+          if(receiveState>=5){
             console.log(socket.addr,'data sended');
-            socket.end();    
+            // socket.end();    
             console.log(`Save ${receiveState} receivedData`);
             createData(receivedData);
             console.log("Save completely");
@@ -72,10 +72,8 @@ const tcpServer = net.createServer((socket)=>{
         socket.end();
     });
 });
-  
+
 tcpServer.on("error",(err)=>{
-    receiveState = 0;
-    receivedData = [];
     console.log(err);
 });
   
