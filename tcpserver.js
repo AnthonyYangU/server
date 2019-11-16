@@ -23,9 +23,14 @@ const tcpServer = net.createServer((socket)=>{
       //console.log("Ascii data:",data.toString("Ascii"));
       let headId = rd.substring(0,4);
       if(headId==='5a5b'){
-        if(receiveState<=5){
+        if(receiveState<5){
           let analyseData = translate(rd);
           receiveState ++;
+          if(receiveState==5){
+            socket.write("FINISH",function(){
+              console.log("Data transmit Finished");
+            })
+          }
           receivedData.push(...analyseData);
         }
       }
@@ -33,16 +38,11 @@ const tcpServer = net.createServer((socket)=>{
         console.log("incorrect headId");
       }
     });
-    
-    var message = "The test";
-    socket.write(message,function(){
-      console.log("test");
-    })
 
     // close
     socket.on('close',()=>{
       console.log(addr,"close");
-      if(receiveState>0){
+      if(receiveState==5){
         console.log(`Save ${receiveState} receivedData`);
         createData(receivedData);
         console.log("Save completely");
