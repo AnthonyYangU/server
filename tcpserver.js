@@ -28,13 +28,13 @@ const tcpServer = net.createServer((socket)=>{
           receiveState++;
           receivedData.push(...analyseData);
           if(receiveState>=5){
-            receiveState = 0;
-            receivedData = [];
             console.log(socket.addr,'data sended');
             createData(receivedData);
             //socket.end();    
             console.log(`Save ${receiveState} receivedData`);
             console.log("Save completely");
+            receiveState = 0;
+            receivedData = [];
           }
         }
         console.log("recieve state is ",receiveState);
