@@ -34,6 +34,11 @@ const tcpServer = net.createServer((socket)=>{
       }
     });
     
+    var message = "The server address is " + JSON.stringify(server.address());
+    socket.write(message,function(){
+      console.log("test");
+    })
+
     // close
     socket.on('close',()=>{
       console.log(addr,"close");

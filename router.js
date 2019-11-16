@@ -26,7 +26,7 @@ module.exports = (app)=>{
     router.post('/api/dm',Controller.dm);
     router.post('/api/inputdb',Controller.inputdb);
     router.post('/api/upload',upload.single('file'),Controller.upload);
-   
+    router.post('/api/download',Controller.download);
     app.use(router.routes()).use(router.allowedMethods());
 };
 

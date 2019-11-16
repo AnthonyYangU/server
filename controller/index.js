@@ -1,5 +1,6 @@
 const {createData,findData,myTest,search,deleteById,deleteMany,saveArray} = require('../mongodb.js')
-
+const fs = require('fs');
+let pt = './uploads/slides.pdf'
 const JSON_MIME = 'application/json'
 module.exports = {
     api: async (ctx,next) => {
@@ -67,4 +68,13 @@ module.exports = {
             status:0
         }
     },
+    download:async(ctx,next)=>{
+        let stream = fs.createReadStream(pt);
+        // let stat = fs.statSync(__dirname + '/uploads'+ '956a0230-c6df-11e9-892b-bfc0b5117f19.jpg')
+        ctx.set({
+            'Content-Type':'application/octet-stream',
+            'Content-Disposition':'attachment;filename=slides.pdf',
+        })
+        ctx.body = stream;
+    }
 }
