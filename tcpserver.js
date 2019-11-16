@@ -28,15 +28,17 @@ const tcpServer = net.createServer((socket)=>{
           receiveState++;
           receivedData.push(...analyseData);
           if(receiveState>=5){
+            receiveState = 0;
+            receivedData = [];
             console.log(socket.addr,'data sended');
             // socket.end();    
             console.log(`Save ${receiveState} receivedData`);
             createData(receivedData);
             console.log("Save completely");
-            receiveState = 0;
-            receivedData = [];
           }
         }
+        console.log("recieve state is ",receiveState);
+        console.log("receivedData is ",receivedData);
       }
       else{
         console.log("incorrect headId");
