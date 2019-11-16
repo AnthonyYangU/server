@@ -34,7 +34,7 @@ const tcpServer = net.createServer((socket)=>{
       }
     });
     
-    var message = "The server address is " + JSON.stringify(server.address());
+    var message = "The test";
     socket.write(message,function(){
       console.log("test");
     })
