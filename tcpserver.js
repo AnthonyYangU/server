@@ -48,15 +48,8 @@ const tcpServer = net.createServer((socket)=>{
     // close
     socket.on('close',()=>{
       console.log(addr,"close");
-      if(receiveState==5){
-        console.log(socket.addr,'data sended');
-        socket.end();    
-        console.log(`Save ${receiveState} receivedData`);
-        createData(receivedData);
-        console.log("Save completely");
-      }
-        receiveState = 0;
-        receivedData = [];
+      receiveState = 0;
+      receivedData = [];
     });
   
     socket.on('error',(err)=>{
